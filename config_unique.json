@@ -1,0 +1,23 @@
+{
+	"strategy": 2,
+	"table": "PROJECT",
+	"id": "MasterID",
+	"uniqueness_column": "PREFERREDRECORD",
+	"columns": ["Title", "CTSIReview", "ClinicalTrialStatus"],
+	"conditions": {
+		"Title": {
+			"type": "length",
+			"weight": 45
+		},
+		"CTSIReview": {
+			"type": "length",
+			"weight": 20
+		},
+		"ClinicalTrialStatus": {
+			"type": "regex",
+			"weight": 35,
+			"regex": "^yes$",
+			"ignore_case": true
+		}
+	}
+}

@@ -3,17 +3,15 @@ import sys
 import collections
 import os
 import re
+import json
+import yaml
+import click
 
 sys.path.append(os.path.abspath('pgdedupe'))
 
 PYTHON_VERSION = sys.version_info[0]
 
-db = {
-	'user': 'MED\melvinm',
-	'password': '987654321spoj',
-	'database': 'DATANEXUS_test',
-	'host': 'calv-sc-ctsidb.med.usc.edu'
-}
+# Examples
 
 config = {
 	'strategy': 2,
@@ -39,9 +37,21 @@ config = {
 	}
 }
 
-def main():
-	global config
-	con = pymssql.connect(**db)
+
+@click.command()
+@click.option('--config',
+              help='YAML- or JSON-formatted configuration file.',
+              required=True)
+@click.option('--db',
+              help='YAML- or JSON-formatted database connection credentials.',
+              required=True)
+def main(config, db):
+
+	dbconfig = load_config(db)
+	config = load_config(config)
+	
+	del dbconfig['type']
+	con = pymssql.connect(**dbconfig)
 	config = process_config(config)
 
 	c = con.cursor(as_dict=True)
@@ -76,6 +86,18 @@ def main():
 
 	if len(block_rows) > 1:
 		strategy[config['strategy']](con, block_rows, config)
+
+
+def load_config(filename):
+    ext = os.path.splitext(filename)[1].lower()
+    with open(filename) as f:
+        if ext == '.json':
+            return json.load(f)
+        elif ext in ('.yaml', '.yml'):
+            return yaml.load(f)
+        else:
+            raise Exception('unknown filetype %s' % ext)
+
 
 def process_config(config):
 	arr = config['columns'] + [config['id']] + ['dedupe_id']
@@ -203,4 +225,5 @@ strategy_2_func = {
 	'regex': compare_regex
 }
 
-main()
+if __name__ == '__main__':
+    main()
