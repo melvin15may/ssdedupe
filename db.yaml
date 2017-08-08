@@ -1,5 +1,5 @@
-user: MED\melvinm
-password: 987654321spoj
-database: DATANEXUS_test
-host: calv-sc-ctsidb.med.usc.edu
+user: username
+password: password
+database: database_name
+host: mssql.host
 type: mssql
