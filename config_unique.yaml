@@ -1,0 +1,37 @@
+# Strategy you would like to use. 
+# You can read more about available strategies here: 
+# https://keckmedicine-my.sharepoint.com/personal/melvin_mathew_med_usc_edu/_layouts/15/guestaccess.aspx?guestaccesstoken=pxKQiQWipa%2feJyeHPNobXWC5LEnKfwQC9PSIIayLq%2bM%3d&docid=2_02342c4fbfee64f419ff888a96a96a269&rev=1
+strategy: 2
+# Table name 
+table: PROJECT
+# Primary key column of the table or a unique key which can be used to identify a row
+id: MasterID
+# Column that is marked as 1 for preferred record
+uniqueness_column: PREFERREDRECORD
+# Columns used to calculate preferred record
+# In case of strategy 1, this is in descending order of priority
+columns:
+- Title
+- CTSIReview
+- ClinicalTrialStatus
+# Only needed for strategy 2
+# Specifies condition and weightage for each column
+# Supports 2 conditions:
+# 1: length -> number of characters 
+#    ( Formula used: (# of characters/max # of character in a block of similar rows ) * weight )
+# 2: regex -> compares regular expressions with value in that column. 
+#    If there is a match the weight is returned else zero is returned
+conditions:
+  Title:
+    type: length
+    weight: 45
+  CTSIReview:
+    type: length
+    weight: 20
+  ClinicalTrialStatus:
+    type: regex
+    weight: 35
+    # Regular expression in Python 3 
+    regex: "^yes$"
+    # Case sensitivity toggle
+    ignore_case: true

@@ -1,0 +1,4 @@
+user: postgres
+password: 987654321spoj
+database: test
+host: localhost
