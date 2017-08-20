@@ -21,6 +21,8 @@ pgdedupe
      :alt: Updates
 
 
+**This a fork from dssg/pgdedupe (https://github.com/dssg/pgdedupe). This will now be a separate repo for MS SQL Server implementation. (See https://github.com/dssg/pgdedupe/pull/40)**
+
 A work-in-progress to provide a standard interface for deduplication of large
 databases with custom pre-processing and post-processing steps.
 
@@ -90,8 +92,7 @@ results, making this a hybrid between fuzzy matching and record linkage.
 Further steps
 -------------
 
-This script was based upon and extended from the example in
-`dedupe-examples`_. It would be nice to use this common interface across all
+This script was based upon and extended from the example in `dedupe-examples`_. It would be nice to use this common interface across all
 database types, and potentially even allow reading from flat CSV files.
 
 .. _dedupe-examples: https://github.com/datamade/dedupe-examples/tree/master/pgsql_big_dedupe_example
