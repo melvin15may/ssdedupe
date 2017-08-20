@@ -1,27 +1,28 @@
 ============================
-pgdedupe
+ssdedupe
 ============================
 
+.. image:: https://img.shields.io/pypi/v/ssdedupe.svg
+        :target: https://pypi.python.org/pypi/ssdedupe
 
-.. image:: https://img.shields.io/pypi/v/pgdedupe.svg
-        :target: https://pypi.python.org/pypi/pgdedupe
+.. image:: https://img.shields.io/travis/melvin15may/ssdedupe.svg
+        :target: https://travis-ci.org/melvin15may/ssdedupe
 
-.. image:: https://img.shields.io/travis/dssg/pgdedupe.svg
-        :target: https://travis-ci.org/dssg/pgdedupe
-
-.. image:: https://codecov.io/gh/dssg/pgdedupe/branch/master/graph/badge.svg
-	    :target: https://codecov.io/gh/dssg/pgdedupe
+.. image:: https://codecov.io/gh/melvin15may/ssdedupe/branch/master/graph/badge.svg
+	    :target: https://codecov.io/gh/melvin15may/ssdedupe
 
 .. image:: https://readthedocs.org/projects/pgdedupe/badge/?version=latest
         :target: https://pgdedupe.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/dssg/pgdedupe/shield.svg
-     :target: https://pyup.io/repos/github/dssg/pgdedupe/
+.. image:: https://pyup.io/repos/github/melvin15may/ssdedupe/shield.svg
+     :target: https://pyup.io/account/repos/github/melvin15may/ssdedupe/
      :alt: Updates
 
 
-**This a fork from dssg/pgdedupe (https://github.com/dssg/pgdedupe). This will now be a separate repo for MS SQL Server implementation. (See https://github.com/dssg/pgdedupe/pull/40)**
+**This is a fork from** `dssg/pgdedupe <http://github.com/dssg/pgdedupe>`_. **This will now be a separate repo for MS SQL Server implementation.** (See `PR#40 <https://github.com/dssg/pgdedupe/pull/40>`_)
+
+**This packages is for working with Microsoft SQL Server. I will be slowly removing support for PostgreSQL, please use pgdedupe for working with PostgreSQL**
 
 A work-in-progress to provide a standard interface for deduplication of large
 databases with custom pre-processing and post-processing steps.
@@ -34,7 +35,7 @@ databases with custom pre-processing and post-processing steps.
 Interface
 ---------
 
-This provides a simple command-line program, ``pgdedupe``. Two configuration
+This provides a simple command-line program, ``ssdedupe``. Two configuration
 files specify the deduplication parameters and database connection settings. To
 run deduplication on a generated dataset, create a ``database.yml`` file that
 specifies the following parameters::
@@ -68,7 +69,7 @@ Once complete, store this example dataset in a database with::
 Now you can deduplicate this dataset. This will run dedupe as well as the
 custom pre-processing and post-processing steps as defined in config.yml::
 
-	$ pgdedupe --config config.yml --db database.yml
+	$ ssdedupe --config config.yml --db database.yml
 
 
 Custom pre- and post-processing

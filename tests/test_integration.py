@@ -1,5 +1,5 @@
 # Very rudimentary integration testing
-from pgdedupe import cli
+from ssdedupe import cli
 from click.testing import CliRunner
 import tests.generate_fake_dataset as gen
 import tests.initialize_db as initdb

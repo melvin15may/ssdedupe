@@ -3,7 +3,7 @@ import json
 
 from click.testing import CliRunner
 
-from pgdedupe import cli
+from ssdedupe import cli
 
 import pymssql
 

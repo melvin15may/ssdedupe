@@ -23,8 +23,8 @@ import psycopg2.extras
 
 import yaml
 
-sys.path.append(os.path.abspath('pgdedupe'))
-sys.path.append(os.path.abspath('pgdedupe/mssql'))
+sys.path.append(os.path.abspath('ssdedupe'))
+sys.path.append(os.path.abspath('ssdedupe/mssql'))
 
 import exact_matches
 from mssql import cli as mscli

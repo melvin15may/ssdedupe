@@ -17,6 +17,8 @@ requirements = [
     'PyYAML',
     'dedupe>=1.6.0',
     'dedupe-variable-name',
+    'unicodecsv',
+    'pymssql'
 ]
 
 test_requirements = [
@@ -24,28 +26,28 @@ test_requirements = [
 ]
 
 setup(
-    name='pgdedupe',
-    version='0.2.1',
+    name='ssdedupe',
+    version='0.0.2',
     description="A simple interface to datamade/dedupe to make probabilistic record linkage easy.",
     long_description=readme + '\n\n' + history,
-    author="DSaPP Researchers",
-    author_email='datascifellows@gmail.com',
-    url='https://github.com/dssg/pgdedupe',
+    author="Melvin Mathew",
+    author_email='melvin15may@gmail.com',
+    url='https://github.com/melvin15may/ssdedupe',
     packages=[
-        'pgdedupe',
+        'ssdedupe',
     ],
-    package_dir={'pgdedupe':
-                 'pgdedupe'},
+    package_dir={'ssdedupe':
+                 'ssdedupe'},
     entry_points={
         'console_scripts': [
-            'pgdedupe=pgdedupe.cli:main'
+            'ssdedupe=ssdedupe.cli:main'
         ]
     },
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='pgdedupe',
+    keywords='ssdedupe',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
