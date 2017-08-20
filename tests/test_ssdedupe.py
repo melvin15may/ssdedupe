@@ -13,7 +13,7 @@ import pytest
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from pgdedupe import cli
+from ssdedupe import cli
 
 
 @pytest.fixture

@@ -22,7 +22,7 @@ import numpy
 
 import pymssql
 
-sys.path.append(os.path.abspath('pgdedupe'))
+sys.path.append(os.path.abspath('ssdedupe'))
 import exact_matches
 
 START_TIME = time.time()
