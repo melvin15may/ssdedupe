@@ -31,8 +31,8 @@ setup(
     description="A simple interface to datamade/dedupe to make probabilistic record linkage easy.",
     long_description=readme + '\n\n' + history,
     author="Melvin Mathew",
-    author_email='datascifellows@gmail.com',
-    url='https://github.com/dssg/pgdedupe',
+    author_email='melvin15may@gmail.com',
+    url='https://github.com/melvin15may/ssdedupe',
     packages=[
         'ssdedupe',
     ],
