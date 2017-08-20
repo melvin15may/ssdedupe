@@ -87,6 +87,12 @@ pgdedupe/lib/
 pgdedupe/local/
 pgdedupe/share/
 pgdedupe/pip-selfcheck.json
+ssdedupe/bin/
+ssdedupe/include/
+ssdedupe/lib/
+ssdedupe/local/
+ssdedupe/share/
+ssdedupe/pip-selfcheck.json
 
 # Spyder project settings
 .spyderproject
