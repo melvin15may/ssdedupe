@@ -35,7 +35,7 @@ databases with custom pre-processing and post-processing steps.
 Interface
 ---------
 
-This provides a simple command-line program, ``pgdedupe``. Two configuration
+This provides a simple command-line program, ``ssdedupe``. Two configuration
 files specify the deduplication parameters and database connection settings. To
 run deduplication on a generated dataset, create a ``database.yml`` file that
 specifies the following parameters::
@@ -69,7 +69,7 @@ Once complete, store this example dataset in a database with::
 Now you can deduplicate this dataset. This will run dedupe as well as the
 custom pre-processing and post-processing steps as defined in config.yml::
 
-	$ pgdedupe --config config.yml --db database.yml
+	$ ssdedupe --config config.yml --db database.yml
 
 
 Custom pre- and post-processing

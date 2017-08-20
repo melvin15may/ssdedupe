@@ -14,7 +14,6 @@ import random
 import sys
 import tempfile
 import time
-import codecs
 
 import dedupe
 
@@ -100,9 +99,10 @@ def process_options(c):
          name=x, table=config['table']) for x in columns])
 
     config['column_select_table'] = ','.join(["{table}.{name}"
-                                             .format(name=x,
-                                                     table=config['table']) for x in columns])
-    config['column_select_t'] = ','.join(["t.{name}".format(name=x) for x in columns])
+                                              .format(name=x,
+                                                      table=config['table']) for x in columns])
+    config['column_select_t'] = ','.join(
+        ["t.{name}".format(name=x) for x in columns])
 
     # By default MS Sql Server is case insensitive
     # Need to make it insensitive as per Dedupe
@@ -118,9 +118,7 @@ def unicode_to_str(data):
         data = None
     if PYTHON_VERSION < 3:
         if isinstance(data, basestring):
-            #print data
             return data.encode('utf8')
-            #return str(data)
         elif isinstance(data, collections.Mapping):
             return dict(map(unicode_to_str, data.iteritems()))
         elif isinstance(data, collections.Iterable):
@@ -175,17 +173,18 @@ def preprocess(con, config):
               " ON {schema}.entries_unique (_unique_id, {columns})".format(**config))
 
     # TAKES MORE TIME BUT MORE ACCURATE
-    #c.execute("""SELECT t._unique_id, {table}.{key} INTO {schema}.entries_src_ids
-    #                FROM {schema}.entries_unique as t, {table}
-    #                WHERE {stuff_condition}"""
-    #          .format(**config))
+    """
+    c.execute("SELECT t._unique_id, {table}.{key} INTO {schema}.entries_src_ids
+                    FROM {schema}.entries_unique as t, {table}
+                    WHERE {stuff_condition}"
+              .format(**config))
+    """
 
     # TAKES LESS TIME
     c.execute("""SELECT t._unique_id, {table}.{key} INTO {schema}.entries_src_ids
-                    FROM {schema}.entries_unique as t, {table}
-                    WHERE BINARY_CHECKSUM({column_select_table}) = BINARY_CHECKSUM({column_select_t})"""
+            FROM {schema}.entries_unique as t, {table}
+            WHERE BINARY_CHECKSUM({column_select_table}) = BINARY_CHECKSUM({column_select_t})"""
               .format(**config))
-
 
     con.commit()
 
@@ -203,7 +202,8 @@ def train(con, config):
         with open(config['settings_file'], 'rb') as sf:
             return dedupe.StaticDedupe(sf, num_cores=config['num_cores'])
     # Create a new deduper object and pass our data model to it.
-    deduper = dedupe.Dedupe(config['all_fields'], num_cores=config['num_cores'])
+    deduper = dedupe.Dedupe(
+        config['all_fields'], num_cores=config['num_cores'])
 
     cur = con.cursor(as_dict=True)
 
@@ -211,7 +211,7 @@ def train(con, config):
                    FROM {schema}.entries_unique
                    ORDER BY _unique_id""".format(**config))
     temp_d = dict((i, unicode_to_str(row)) for i, row in enumerate(cur))
-    #temp_d = dict((i, (row)) for i, row in enumerate(cur))
+    # temp_d = dict((i, (row)) for i, row in enumerate(cur))
 
     deduper.sample(temp_d, 75000)
 
@@ -273,9 +273,10 @@ def create_blocking(deduper, con, config):
 
     for field in deduper.blocker.index_fields:
         c2 = con.cursor(as_dict=True)
-        c2.execute("SELECT DISTINCT {0} FROM {schema}.entries_unique".format(field, **config))
+        c2.execute(
+            "SELECT DISTINCT {0} FROM {schema}.entries_unique".format(field, **config))
         field_data = (unicode_to_str(row)[field] for row in c2)
-        #field_data = ((row)[field] for row in c2)
+        # field_data = ((row)[field] for row in c2)
         deduper.blocker.index(field_data, field)
         c2.close()
 
@@ -284,14 +285,16 @@ def create_blocking(deduper, con, config):
     print('writing blocking map')
 
     c3 = con.cursor(as_dict=True)
-    c3.execute("SELECT {all_columns} FROM {schema}.entries_unique".format(**config))
+    c3.execute(
+        "SELECT {all_columns} FROM {schema}.entries_unique".format(**config))
 
     full_data = ((row['_unique_id'], unicode_to_str(row)) for row in c3)
-    #full_data = ((row['_unique_id'], (row)) for row in c3)
+    # full_data = ((row['_unique_id'], (row)) for row in c3)
     b_data = deduper.blocker(full_data)
 
     # Write out blocking map to CSV so we can quickly load in with
-    csv_file = tempfile.NamedTemporaryFile(prefix='blocks_', delete=False, mode='wb')
+    csv_file = tempfile.NamedTemporaryFile(
+        prefix='blocks_', delete=False, mode='wb')
     csv_writer = csv.writer(csv_file)
     csv_writer.writerows(b_data)
     c3.close()
@@ -438,7 +441,8 @@ def write_results(clustered_dupes, con, config):
     c.execute("IF OBJECT_ID('{schema}.entity_map', 'U') IS NOT NULL "
               "DROP TABLE {schema}.entity_map""".format(**config))
     c.execute("CREATE TABLE {schema}.entity_map "
-              "(_unique_id INT, canon_id INT, "  # TODO: THESE INTS MUST BE DYNAMIC
+              # TODO: THESE INTS MUST BE DYNAMIC
+              "(_unique_id INT, canon_id INT, "
               " cluster_score FLOAT, PRIMARY KEY(_unique_id))".format(**config))
 
     csv_file = tempfile.NamedTemporaryFile(prefix='entity_map_', delete=False,
@@ -467,7 +471,8 @@ def write_results(clustered_dupes, con, config):
 
     con.commit()
 
-    c.execute("CREATE INDEX head_index ON {schema}.entity_map (canon_id)".format(**config))
+    c.execute(
+        "CREATE INDEX head_index ON {schema}.entity_map (canon_id)".format(**config))
     con.commit()
 
     # Print out the number of duplicates found
@@ -503,13 +508,15 @@ def apply_results(con, config):
         if not all(c in available_fields for c in cols):
             continue
         exact_matches.merge_mssql('{}.map'.format(config['schema']), 'canon_id',
-                                  '{}.entries_unique'.format(config['schema']), '_unique_id',
+                                  '{}.entries_unique'.format(
+                                      config['schema']), '_unique_id',
                                   cols, config['schema'], con)
 
     # Add that integer id back to the unique_entries table
     c.execute("IF (SELECT COL_LENGTH('{schema}.entries_unique', 'dedupe_id')) IS NOT NULL "
               "ALTER TABLE {schema}.entries_unique DROP COLUMN dedupe_id".format(**config))
-    c.execute("ALTER TABLE {schema}.entries_unique ADD dedupe_id INT".format(**config))
+    c.execute(
+        "ALTER TABLE {schema}.entries_unique ADD dedupe_id INT".format(**config))
     c.execute("UPDATE {schema}.entries_unique SET dedupe_id = m.canon_id "
               "FROM {schema}.map AS m "
               "WHERE {schema}.entries_unique._unique_id = m._unique_id".format(**config))
@@ -535,10 +542,10 @@ def apply_results(con, config):
     c.execute("ALTER TABLE {table} ADD dedupe_id INT".format(**config))
 
     # TAKES MORE TIME BUT MORE ACCURATE
-    #c.execute("UPDATE {table} SET dedupe_id = t.dedupe_id "
+    # c.execute("UPDATE {table} SET dedupe_id = t.dedupe_id "
     #          "FROM {schema}.entries_unique AS t WHERE "
     #          "{stuff_condition}"
-    #          .format(**config))    
+    #          .format(**config))
 
     c.execute("UPDATE {table} SET dedupe_id = t.dedupe_id "
               "FROM {schema}.entries_unique AS t "

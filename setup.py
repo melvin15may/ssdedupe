@@ -27,7 +27,7 @@ test_requirements = [
 
 setup(
     name='ssdedupe',
-    version='0.0.1',
+    version='0.0.2',
     description="A simple interface to datamade/dedupe to make probabilistic record linkage easy.",
     long_description=readme + '\n\n' + history,
     author="Melvin Mathew",
