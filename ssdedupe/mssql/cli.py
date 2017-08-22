@@ -27,6 +27,7 @@ import exact_matches
 START_TIME = time.time()
 PYTHON_VERSION = sys.version_info[0]
 
+dedupe_string_types = ['String', 'Text', 'ShortString']
 
 def mssql_main(config, db):
     con = pymssql.connect(**db)
@@ -91,12 +92,13 @@ def process_options(c):
     config['all_fields'] = config['fields'] + [
         {'type': 'Interaction', 'interaction variables': x} for x in config['interactions']]
     columns = set([x['field'] for x in config['fields']])
+
     # Used to nested sub-queries
 
-    config['stuff_condition'] = ' AND '.join(
-        ["""(({table}.{name} IS NULL AND t.{name} IS NULL) OR t.{name} = {table}.{name}
-        COLLATE SQL_Latin1_General_CP1_CS_AS)""".format(
-         name=x, table=config['table']) for x in columns])
+    #config['stuff_condition'] = ' AND '.join(
+    #    ["""(({table}.{name} IS NULL AND t.{name} IS NULL) OR t.{name} = {table}.{name}
+    #    COLLATE SQL_Latin1_General_CP1_CS_AS)""".format(
+    #     name=x, table=config['table']) for x in columns])
 
     config['column_select_table'] = ','.join(["{table}.{name}"
                                               .format(name=x,
@@ -106,8 +108,8 @@ def process_options(c):
 
     # By default MS Sql Server is case insensitive
     # Need to make it insensitive as per Dedupe
-    config['case_sensitive_columns'] = ' , '.join(["""{name} COLLATE
-        SQL_Latin1_General_CP1_CS_AS AS {name}""".format(name=x) for x in columns])
+    config['case_sensitive_columns'] = ' , '.join(set(["""{name} 
+        COLLATE SQL_Latin1_General_CP1_CS_AS AS {name}""".format(name=x['field']) if x['type'] in dedupe_string_types else x['field'] for x in config['fields']]))
     config['columns'] = ', '.join(columns)
     config['all_columns'] = ', '.join(columns | set(['_unique_id']))
     return config
@@ -211,8 +213,6 @@ def train(con, config):
                    FROM {schema}.entries_unique
                    ORDER BY _unique_id""".format(**config))
     temp_d = dict((i, unicode_to_str(row)) for i, row in enumerate(cur))
-    # temp_d = dict((i, (row)) for i, row in enumerate(cur))
-
     deduper.sample(temp_d, 75000)
 
     del temp_d
