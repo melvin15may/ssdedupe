@@ -19,7 +19,7 @@ env:
 - TOXENV=py27
 - TOXENV=flake8
 
-install: pip install -U tox
+install: travis_wait pip install -U tox
 
 script: tox -e ${TOXENV}
 
