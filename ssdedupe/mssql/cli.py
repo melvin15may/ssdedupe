@@ -14,6 +14,7 @@ import random
 import sys
 import tempfile
 import time
+import re
 
 import dedupe
 
@@ -88,11 +89,8 @@ def process_options(c):
     for d in config['fields']:
         if 'variable name' not in d:
             d['variable name'] = d['field']
-    # Add some handy computed values for convenience
-    config['all_fields'] = config['fields'] + [
-        {'type': 'Interaction', 'interaction variables': x} for x in config['interactions']]
-    columns = set([x['field'] for x in config['fields']])
 
+    columns = set([x['field'] for x in config['fields']])
     # Used to nested sub-queries
 
     #config['stuff_condition'] = ' AND '.join(
@@ -112,6 +110,12 @@ def process_options(c):
         COLLATE SQL_Latin1_General_CP1_CS_AS AS {name}""".format(name=x['field']) if x['type'] in dedupe_string_types else x['field'] for x in config['fields']]))
     config['columns'] = ', '.join(columns)
     config['all_columns'] = ', '.join(columns | set(['_unique_id']))
+
+    config['all_fields'] = [{'type': 'Interaction', 'interaction variables': x} for x in config['interactions']]
+    regex = re.compile(r"[\[\]\"]")
+    for i in config['fields']:
+        i['field'] = regex.sub("", i['field'])
+        config['all_fields'].append(i)
     return config
 
 
