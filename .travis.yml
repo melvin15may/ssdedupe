@@ -19,7 +19,7 @@ env:
 - TOXENV=py27
 - TOXENV=flake8
 
-install: pip install -U tox
+install: travis_wait pip install -U tox
 
 script: tox -e ${TOXENV}
 
@@ -30,10 +30,10 @@ after_success:
 deploy:
   true:
     condition: $TOXENV == py27
-    repo: dssg/pgdedupe
+    repo: melvin15may/ssdedupe
     tags: true
   distributions: sdist bdist_wheel
   password:
-    secure: oB4FcY0we9XYcxkaS+h68D3Xy8Y4edZRS5cpKNqpX1v7aH3qq6wq/v+WELmKPLteNbAsCxy7OHpg4bCiAEsspiuFOl8mbEMeQqyUP+OYL7R5vqdecRnA3niWX8jwM48Qhph91R+sL/C0PgUCK/FR6/D8OTbPy6uONgCQc0aX5Jz9EWq2D9XvfOS1QMQmOy7ppf14dfRYrxL+idIGWoEHU1ZnymK0XneD9x5GKvRxuAQaGyVF709BreeQRDxF5hw+K0B3xMBVjgI5bEfhCNhCIAZA5IPzahmdXqERSUIu/8HL3d/vJO4zGmu1k13N2MRWZJcBaovtjIbpEimL/p9OgxJDVyIMx0r1eT8XgVuh7WTePbc3fwmRkV4OKmERwNTAqDzsysVDH9zhD1HzbFuS5PRAoPhT8JOkbcyWKxBpbC3UcssV6Dt2tN8LMI40BcxgtXdxMAhczktGF+kShaS+XTMeVoTtDNIwAGNiNm+LiO/6QdS1JnUXcl9rT0bsYL+EFzX1rfU6OVQI6nXfWjny/t7+h803cF5WRzu0TItzzZ1Ko4X9yje/MYrK2HEG8JdXxyqiUJ1GJhxL/p2xDXmilahNWk0j9GLmhLsEkZPmzm5zg2Q3MaiSEJJHxe4MmQSQiY+BtczAXqHDd+pIHt/Lfxn3M+mLBGXCSyCxv5w+trg=
+    secure: n3khBE2+L9jZn94xz8mt1WlapvCkjIDv9hQkfQUTzAaOAZm1Yazf+6ajHaVj1BM/p37UJWWVmJfxNTC86GtEeYqCrw3kt4U731M9q/LJS9NQNdhWYPAUCExgCqdHpu3sUOxwqTkWBmHg7NwzSQrByR4lIPQn0oL0Ov97lX0qwyppnr0XqbBZMWPMcu7Oul0e4HFXeZc55lIi4IXsQZxaolmh5qHX9wnXuEG2i/Ty9aA6iIb97iDcbhMGh6CVXRLNSyC9djBXpZlcLwuCZddzGSGzQAFp8qtKTXd2Lho7XzmTV+KrBKEdfpke7/JtPt6WGPHjEHyhK/63T/hu0M8QaPWUebAnJhpj52VYyUV1m8fNeZXm7pfMsAH9m/HSTfopzWLX42aTBg3dZV3bHyxseL2B6bpUNS3lIcMjN4HZEZMBWfIOFHfvgdkI4AItwPCf2w846yGOACcjOCWn83/zuo87nFongNztJP85ul/e1iCE3Yzm7kMzMbYFqD1V0b/93tVv6Kg3AlLNT9K9aWszk9k3Fbl5Ew3HkPHoRc7M/CRQmRuyFWw8t/mOAVHdiU56X2FdcTvSGliTFmJi/cdKQxrdnU4uWlW2abgyTmV6tt8iEO5qdkR9KqyUk11YTTJGczStow6yiMohFRxJJ66ohZwC7pNzY+m4hOzLvm5SsZE=
   provider: pypi
-  user: dssg
+  user: melvin15may
