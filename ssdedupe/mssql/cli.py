@@ -30,6 +30,7 @@ PYTHON_VERSION = sys.version_info[0]
 
 dedupe_string_types = ['String', 'Text', 'ShortString']
 
+
 def mssql_main(config, db):
     con = pymssql.connect(**db)
     config = process_options(config)
@@ -91,12 +92,6 @@ def process_options(c):
             d['variable name'] = d['field']
 
     columns = set([x['field'] for x in config['fields']])
-    # Used to nested sub-queries
-
-    #config['stuff_condition'] = ' AND '.join(
-    #    ["""(({table}.{name} IS NULL AND t.{name} IS NULL) OR t.{name} = {table}.{name}
-    #    COLLATE SQL_Latin1_General_CP1_CS_AS)""".format(
-    #     name=x, table=config['table']) for x in columns])
 
     config['column_select_table'] = ','.join(["{table}.{name}"
                                               .format(name=x,
@@ -106,12 +101,19 @@ def process_options(c):
 
     # By default MS Sql Server is case insensitive
     # Need to make it insensitive as per Dedupe
-    config['case_sensitive_columns'] = ' , '.join(set(["""{name} 
-        COLLATE SQL_Latin1_General_CP1_CS_AS AS {name}""".format(name=x['field']) if x['type'] in dedupe_string_types else x['field'] for x in config['fields']]))
+    config['case_sensitive_columns'] = ' , '.join(set(["""{name}
+        COLLATE SQL_Latin1_General_CP1_CS_AS AS {name}""".format(
+        name=x['field']) if x['type'] in dedupe_string_types
+        else x['field'] for x in config['fields']]))
+    
     config['columns'] = ', '.join(columns)
     config['all_columns'] = ', '.join(columns | set(['_unique_id']))
 
-    config['all_fields'] = [{'type': 'Interaction', 'interaction variables': x} for x in config['interactions']]
+    config['all_fields'] = [{
+        'type': 'Interaction',
+        'interaction variables': x
+    } for x in config['interactions']]
+
     regex = re.compile(r"[\[\]\"]")
     for i in config['fields']:
         i['field'] = regex.sub("", i['field'])
