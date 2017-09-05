@@ -1,4 +1,31 @@
 import pymssql
+import collections
+import unicodecsv as csv
+import sys
+
+PYTHON_VERSION = sys.version_info[0]
+
+def unicode_to_str(data):
+    if data == "":
+        data = None
+    if PYTHON_VERSION < 3:
+        if isinstance(data, basestring):
+            return data.encode('utf8')
+        elif isinstance(data, collections.Mapping):
+            return dict(map(unicode_to_str, data.iteritems()))
+        elif isinstance(data, collections.Iterable):
+            return type(data)(map(unicode_to_str, data))
+        else:
+            return data
+    else:
+        if isinstance(data, str):
+            return data
+        elif isinstance(data, collections.Mapping):
+            return dict(map(unicode_to_str, data.items()))
+        elif isinstance(data, collections.Iterable):
+            return type(data)(map(unicode_to_str, data))
+        else:
+            return data
 
 
 def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.usc.edu", "password": "987654321spoj", "user": "MED\melvinm"}, table_name='test', config_table_name='config'):
@@ -28,12 +55,12 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
 
     row = cursor.fetchone()
     if row is not None:
-        row['prompt_for_labels'] = row['prompt_for_labels']
-        if row['filter_condition'] is None or row['filter_condition'] == '':
-            del row['filter_condition']
-        if row['seed'] is None or row['seed'] == '':
-            row['seed'] = 0
-        config = row
+    	row = unicode_to_str(row)
+    	if row['filter_condition'] is None or row['filter_condition'] == '':
+    		del row['filter_condition']
+    	if row['seed'] is None or row['seed'] == '':
+    		row['seed'] = 0
+    	config = row
     else:
         raise Exception("'{table_name}' not found in configuration table".format(
             table_name=table_name))
@@ -52,6 +79,7 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
     fields = []
     categorical_fields = {}
     for row in cursor:
+    	row = unicode_to_str(row)
     	if row['field_has_missing'] is None or row['field_has_missing'] == '':
     		row['field_has_missing'] = False
     	row['type'] = row['field_type']
