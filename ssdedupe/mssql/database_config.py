@@ -5,6 +5,7 @@ import sys
 
 PYTHON_VERSION = sys.version_info[0]
 
+
 def unicode_to_str(data):
     if data == "":
         data = None
@@ -40,7 +41,11 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
 
     config = {}
 
-    # Get basic details from table
+    """
+    Get basic details from table
+	START
+	"""
+
     cursor.execute("""SELECT 
     						"schema",
 							"table",
@@ -55,17 +60,24 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
 
     row = cursor.fetchone()
     if row is not None:
-    	row = unicode_to_str(row)
-    	if row['filter_condition'] is None or row['filter_condition'] == '':
-    		del row['filter_condition']
-    	if row['seed'] is None or row['seed'] == '':
-    		row['seed'] = 0
-    	config = row
+        row = unicode_to_str(row)
+        if row['filter_condition'] is None or row['filter_condition'] == '':
+            del row['filter_condition']
+        if row['seed'] is None or row['seed'] == '':
+            row['seed'] = 0
+        config = row
     else:
         raise Exception("'{table_name}' not found in configuration table".format(
             table_name=table_name))
 
-    # Get all fields
+    """
+    END
+    """
+
+    """
+    Get all fields
+	START
+	"""
     cursor.execute("""
     	SELECT 
     		field,
@@ -79,23 +91,57 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
     fields = []
     categorical_fields = {}
     for row in cursor:
-    	row = unicode_to_str(row)
-    	if row['field_has_missing'] is None or row['field_has_missing'] == '':
-    		row['field_has_missing'] = False
-    	row['type'] = row['field_type']
-    	row['has_missing'] = row['field_has_missing']
-    	del row['field_type']
-    	del row['field_has_missing']
-    	if row['type'] != 'Categorical':
-    		fields.append(row)
-    	else:
-    		if row['field'] in categorical_fields:
-    			categorical_fields[row['field']]['categories'].append(row['categories'])
-    		else:
-    			row['categories'] = [row['categories']]
-    			categorical_fields[row['field']] = row
+        row = unicode_to_str(row)
+        if row['field_has_missing'] is None or row['field_has_missing'] == '':
+            row['field_has_missing'] = False
+        row['type'] = row['field_type']
+        row['has_missing'] = row['field_has_missing']
+        del row['field_type']
+        del row['field_has_missing']
+        if row['type'] != 'Categorical':
+            fields.append(row)
+        else:
+            if row['field'] in categorical_fields:
+                categorical_fields[row['field']]['categories'].append(row['categories'])
+            else:
+                row['categories'] = [row['categories']]
+                categorical_fields[row['field']] = row
 
     config['fields'] = fields + list(categorical_fields.values())
+    """
+    END
+    """
+
+    """
+    Get all interactions
+    START
+    """
+    cursor.execute("""
+    	SELECT
+    		interactions,
+    		set_number
+    	FROM {config_table_name}
+    	WHERE "table"= '{table_name}' AND interactions is not null
+    	ORDER BY set_number ASC
+    	""".format(config_table_name=config_table_name, table_name=table_name))
+
+    interactions = []
+    prev_set = -1
+    for row in cursor:
+        row = unicode_to_str(row)
+        if prev_set != row['set_number']:
+            interactions.append([row['interactions']])
+            prev_set = row['set_number']
+        else:
+            interactions[-1].append(row['interactions'])
+
+    if len(interactions) > 0:
+        config['interactions'] = interactions
+
+    """
+    END
+    """
+
     print(config)
 
     cursor.close()
