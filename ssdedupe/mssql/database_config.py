@@ -54,6 +54,7 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
 							prompt_for_labels,
 							recall,
 							training_file,
+							settings_file,
 							seed
 		 				FROM {config_table_name}
 		 				WHERE "table" = '{table_name}' AND "key" is not null""".format(config_table_name=config_table_name, table_name=table_name))
@@ -99,6 +100,7 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
         del row['field_type']
         del row['field_has_missing']
         if row['type'] != 'Categorical':
+        	del row['categories']
             fields.append(row)
         else:
             if row['field'] in categorical_fields:
@@ -143,7 +145,7 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
     """
 
     """
-    Get all merge_exacts
+    Get all merge_exact
     START
     """
     cursor.execute("""
@@ -172,9 +174,4 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
     END
     """
 
-    print(config)
-
     cursor.close()
-
-
-load_config(table_name='PROJECT')
