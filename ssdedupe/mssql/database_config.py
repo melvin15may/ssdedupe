@@ -142,6 +142,36 @@ def load_config(db={"database": "DATANEXUS_test", "host": "calv-sc-ctsidb.med.us
     END
     """
 
+    """
+    Get all merge_exacts
+    START
+    """
+    cursor.execute("""
+    	SELECT
+    		merge_exact,
+    		set_number
+    	FROM {config_table_name}
+    	WHERE "table"= '{table_name}' AND merge_exact is not null
+    	ORDER BY set_number ASC
+    	""".format(config_table_name=config_table_name, table_name=table_name))
+
+    merge_exact = []
+    prev_set = -1
+    for row in cursor:
+        row = unicode_to_str(row)
+        if prev_set != row['set_number']:
+            merge_exact.append([row['merge_exact']])
+            prev_set = row['set_number']
+        else:
+            merge_exact[-1].append(row['merge_exact'])
+
+    if len(merge_exact) > 0:
+        config['merge_exact'] = merge_exact
+
+    """
+    END
+    """
+
     print(config)
 
     cursor.close()
