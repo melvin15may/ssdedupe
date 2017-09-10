@@ -22,6 +22,9 @@ import numpy
 
 import pymssql
 
+import json
+import yaml
+
 sys.path.append(os.path.abspath('ssdedupe'))
 import exact_matches
 
@@ -47,11 +50,10 @@ def main(config, db, verbosity=2):
     logging.getLogger().setLevel(log_level)
 
     dbconfig = load_config(db)
-    config = load_config(config)
-
     con = pymssql.connect(**dbconfig)
-    config = process_options(config)
-    config['database'] = db['database']
+
+    config = process_options(load_config(config))
+    config['database'] = dbconfig['database']
 
     logging.info("Preprocessing...")
     preprocess(con, config)
@@ -588,3 +590,7 @@ def apply_results(con, config):
 
     con.commit()
     c.close()
+
+
+if __name__ == '__main__':
+    main()
