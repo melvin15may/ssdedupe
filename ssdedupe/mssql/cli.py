@@ -105,7 +105,7 @@ def process_options(c):
         COLLATE SQL_Latin1_General_CP1_CS_AS AS {name}""".format(
         name=x['field']) if x['type'] in dedupe_string_types
         else x['field'] for x in config['fields']]))
-    
+
     config['columns'] = ', '.join(columns)
     config['all_columns'] = ', '.join(columns | set(['_unique_id']))
 
