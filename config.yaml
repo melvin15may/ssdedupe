@@ -42,7 +42,7 @@ prompt_for_labels: False
 # true labeled matches get blocked together.
 recall: 0.99
 # Specify the location of the saved training dataset
-training_file: tests/dedup_postgres_training.json
+training_file: tests/dedup_training.json
 # You may optionally specify a seed for deterministic deduplicaiton. Note that
 # in Python 3.2.3 and higher, Dedupe also requires the PYTHONHASHSEED
 # environment variable to be set to an integer for its results to be

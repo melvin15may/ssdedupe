@@ -1,6 +1,0 @@
-host: localhost
-type: mssql
-password: helph@lp1
-port: 15433
-user: sa
-database: test
