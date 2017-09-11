@@ -70,8 +70,12 @@ def merge(mapping_table, mapping_id,
         schema: the schema where a temporary table may be created
         con: a connection to the database
     """
-    exact_columns_join = ' AND '.join(
-        ['t.{} = t1.{}'.format(x, x) for x in exact_columns])
+    #exact_columns_join = ' AND '.join(
+    #    ['t.{} = t1.{}'.format(x, x) for x in exact_columns])
+
+    exact_columns_join = ' BINARY_CHECKSUM({}) = BINARY_CHECKSUM({}) '.format(','.join(
+        ['t.{}'.format(x) for x in exact_columns]), ','.join(['t1.{}'.format(x) for x in exact_columns]))
+
     edges = pd.read_sql("""
     with subset as (
         SELECT {entries}.{key}, {cluster}, {cols}

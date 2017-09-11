@@ -130,7 +130,7 @@ def process_options(c):
         ["t.{name}".format(name=x) for x in columns])
 
     # By default MS Sql Server is case insensitive
-    # Need to make it insensitive as per Dedupe
+    # Need to make it sensitive as per Dedupe
     config['case_sensitive_columns'] = ' , '.join(set(["""{name}
         COLLATE SQL_Latin1_General_CP1_CS_AS AS {name}""".format(
         name=x['field']) if x['type'] in dedupe_string_types
@@ -184,18 +184,7 @@ def preprocess(con, config):
                 BEGIN
                 EXEC('CREATE SCHEMA {schema}')
                 END""".format(**config))
-    """
-    # Create an intarray-like idx function (https://wiki.postgresql.org/wiki/Array_Index):
-    c.execute(""CREATE OR REPLACE FUNCTION {schema}.idx(anyarray, anyelement)
-                   RETURNS INT A
-                 $$
-                   SELECT i FROM (
-                      SELECT generate_series(array_lower($1,1),array_upper($1,1))
-                   ) g(i)
-                   WHERE $1[i] = $2
-                   LIMIT 1;
-                 $$ LANGUAGE SQL IMMUTABLE;".format(**config))
-    """
+
     # Do an initial first pass and merge all exact duplicates
     c.execute("IF OBJECT_ID('{schema}.entries_unique', 'U') IS NOT NULL "
               "DROP TABLE {schema}.entries_unique".format(**config))
@@ -312,7 +301,7 @@ def create_blocking(deduper, con, config):
     for field in deduper.blocker.index_fields:
         c2 = con.cursor(as_dict=True)
         c2.execute(
-            "SELECT DISTINCT {0} FROM {schema}.entries_unique".format(field, **config))
+            "SELECT DISTINCT [{0}] FROM {schema}.entries_unique".format(field, **config))
         field_data = (unicode_to_str(row)[field] for row in c2)
         # field_data = ((row)[field] for row in c2)
         deduper.blocker.index(field_data, field)
