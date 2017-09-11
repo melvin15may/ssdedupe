@@ -49,15 +49,15 @@ def init(db, csv_file):
     # Lazy definition for the table; Can be made more precise
     c.execute("""CREATE TABLE dedupe.entries (
              uuid CHAR(38) NOT NULL,
-             first_name NVARCHAR(100),
-             last_name NVARCHAR(100),
+             [first name] NVARCHAR(100),
+             [last name] NVARCHAR(100),
              ssn NVARCHAR(11),
              sex NVARCHAR(1),
              dob NVARCHAR(10),
              race NVARCHAR(100),
              ethnicity NVARCHAR(100)
          ) """)
-
+    #rand INTEGER DEFAULT 1
     con.commit()
 
     # Read CSV
@@ -74,10 +74,10 @@ def init(db, csv_file):
         """ALTER TABLE dedupe.entries ADD entry_id INT IDENTITY(1,1) PRIMARY KEY""")
     c.execute("""ALTER TABLE dedupe.entries ADD full_name VARCHAR(100)""")
     c.execute(
-        """UPDATE dedupe.entries SET full_name = first_name + ' ' + last_name""")
+        """UPDATE dedupe.entries SET full_name = [first name] + ' ' + [last name]""")
     c.execute(
-        """UPDATE dedupe.entries SET first_name = NULL where first_name = ''""")
-    c.execute("""UPDATE dedupe.entries SET last_name = NULL where last_name=''""")
+        """UPDATE dedupe.entries SET [first name] = NULL where [first name] = ''""")
+    c.execute("""UPDATE dedupe.entries SET [last name] = NULL where [last name]=''""")
     c.execute("""UPDATE dedupe.entries SET ssn = NULL where ssn=''""")
     c.execute("""UPDATE dedupe.entries SET sex = NULL where sex=''""")
     c.execute("""UPDATE dedupe.entries SET race = NULL where race=''""")

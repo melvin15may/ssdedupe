@@ -257,7 +257,7 @@ def create_population(n=100, twin_rate=.025):
 def create_csv(pop, filename, mean=20):
     with open(filename, 'w') as fd:
         csvwriter = csv.writer(fd)
-        csvwriter.writerow(['uuid', 'first_name', 'last_name',
+        csvwriter.writerow(['uuid', '[first name]', '[last name]',
                             'ssn', 'sex', 'dob', 'race', 'ethnicity'])
         for p in tqdm(pop, desc='writing csv'):
             for _ in range(int(random.expovariate(1 / mean)) + 1):

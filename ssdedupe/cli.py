@@ -102,8 +102,8 @@ def process_options(c):
                        ('threshold', 0.5),
                        ('recall', 0.90),
                        ('merge_exact', []),
-                       ('settings_file', 'dedup_mssql_settings'),
-                       ('training_file', 'dedup_mssql_training.json'),
+                       ('settings_file', 'dedup_settings'),
+                       ('training_file', 'dedup_training.json'),
                        ('filter_condition', '1=1'),
                        ('num_cores', None),
                        ('use_saved_model', False),
@@ -543,10 +543,11 @@ def apply_results(con, config):
     for cols in config['merge_exact']:
         if not all(c in available_fields for c in cols):
             continue
-        exact_matches.merge_mssql('{}.map'.format(config['schema']), 'canon_id',
-                                  '{}.entries_unique'.format(
-                                      config['schema']), '_unique_id',
-                                  cols, config['schema'], con)
+        print(cols)
+        exact_matches.merge('{}.map'.format(config['schema']), 'canon_id',
+                            '{}.entries_unique'.format(
+            config['schema']), '_unique_id',
+            cols, config['schema'], con)
 
     # Add that integer id back to the unique_entries table
     c.execute("IF (SELECT COL_LENGTH('{schema}.entries_unique', 'dedupe_id')) IS NOT NULL "
@@ -571,9 +572,9 @@ def apply_results(con, config):
     for cols in config['merge_exact']:
         if all(c in available_fields for c in cols):
             continue
-        exact_matches.merge_mssql('{}.unique_map'.format(config['schema']), 'dedupe_id',
-                                  config['table'], config['key'],
-                                  cols, config['schema'], con)
+        exact_matches.merge('{}.unique_map'.format(config['schema']), 'dedupe_id',
+                            config['table'], config['key'],
+                            cols, config['schema'], con)
 
     c.execute("ALTER TABLE {table} ADD dedupe_id INT".format(**config))
 
