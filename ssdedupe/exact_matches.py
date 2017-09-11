@@ -97,8 +97,8 @@ def merge(mapping_table, mapping_id,
         t = schema + ".merged_" + "_".join(exact_columns)
         t = regex.sub("", t)
         c.execute("IF OBJECT_ID('{}', 'U') IS NOT NULL DROP TABLE {}".format(t, t))
-        c.execute("""SELECT TOP 0 {id} as id1, {id} as id2 INTO {t} FROM {m}""".format(t=t,
-                                                                                       id=mapping_id, m=mapping_table))
+        c.execute("""SELECT TOP 0 {id} as id1,
+            {id} as id2 INTO {t} FROM {m}""".format(t=t, id=mapping_id, m=mapping_table))
         f.seek(0)
         reader = csv.reader(f)
         data = next(reader)
