@@ -139,15 +139,17 @@ def process_options(c):
     config['columns'] = ', '.join(columns)
     config['all_columns'] = ', '.join(columns | set(['_unique_id']))
 
+    regex = re.compile(r"[\[\]\"]")
+
     config['all_fields'] = [{
         'type': 'Interaction',
         'interaction variables': x
     } for x in config['interactions']]
 
-    regex = re.compile(r"[\[\]\"]")
     for i in config['fields']:
         i['field'] = regex.sub("", i['field'])
         config['all_fields'].append(i)
+
     return config
 
 
@@ -543,7 +545,6 @@ def apply_results(con, config):
     for cols in config['merge_exact']:
         if not all(c in available_fields for c in cols):
             continue
-        print(cols)
         exact_matches.merge('{}.map'.format(config['schema']), 'canon_id',
                             '{}.entries_unique'.format(
             config['schema']), '_unique_id',
