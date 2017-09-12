@@ -1,4 +1,4 @@
-Welcome to pgdedupe's documentation!
+Welcome to ssdedupe's documentation!
 ======================================
 
 Contents:

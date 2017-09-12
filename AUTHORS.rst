@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* DSaPP Researchers <datascifellows@gmail.com>
+* Melvin Mathew <melvin15may@gmail.com>
 
 Contributors
 ------------
