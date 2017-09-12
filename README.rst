@@ -12,8 +12,8 @@ ssdedupe
 	    :target: https://codecov.io/gh/melvin15may/ssdedupe
 
 .. image:: https://readthedocs.org/projects/ssdedupe/badge/?version=latest
-        :target: https://ssdedupe.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
+		:target: http://ssdedupe.readthedocs.io/en/latest/?badge=latest
+		:alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/melvin15may/ssdedupe/shield.svg
      :target: https://pyup.io/account/repos/github/melvin15may/ssdedupe/
