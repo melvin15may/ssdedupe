@@ -2,10 +2,10 @@
 Usage
 =====
 
-Simply install with ``pip install pgdedupe`` and then run with a given
-configuration file and Postgres database credentials with:
+Simply install with ``pip install ssdedupe`` and then run with a given
+configuration file and SQL server database credentials with:
 
-    pgdedupe --config config.yaml --db database.yaml
+    ssdedupe --config config.yaml --db database.yaml
 
-See the `example configuration file <https://github.com/dssg/pgdedupe/blob/master/config.yaml>`_
+See the `example configuration file <https://github.com/melvin15may/ssdedupe/blob/master/config.yaml>`_
 for a listing of the supported fields and their descriptions.

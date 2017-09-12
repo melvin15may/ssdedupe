@@ -8,13 +8,13 @@ Installation
 Stable release
 --------------
 
-To install pgdedupe, run this command in your terminal:
+To install ssdedupe, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install numpy && pip install pgdedupe
+    $ pip install numpy && pip install ssdedupe
 
-This is the preferred method to install pgdedupe, as it will always install the most recent stable release. Note that numpy is currently a pre-requisite for the installation process itself.
+This is the preferred method to install ssdedupe, as it will always install the most recent stable release. Note that numpy is currently a pre-requisite for the installation process itself.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/dssg/pgdedupe
+    $ git clone git://github.com/melvin15may/ssdedupe
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/dssg/pgdedupe/tarball/master
+    $ curl  -OL https://github.com/melvin15may/ssdedupe/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/dssg/pgdedupe
-.. _tarball: https://github.com/dssg/pgdedupe/tarball/master
+.. _Github repo: https://github.com/melvin15may/ssdedupe
+.. _tarball: https://github.com/melvin15may/ssdedupe/tarball/master

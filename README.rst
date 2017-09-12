@@ -5,14 +5,14 @@ ssdedupe
 .. image:: https://img.shields.io/pypi/v/ssdedupe.svg
         :target: https://pypi.python.org/pypi/ssdedupe
 
-.. image:: https://img.shields.io/travis/melvin15may/ssdedupe.svg
+.. image:: https://img.shields.io/travis/melvin15may/ssdedupe.svg?branch=master
         :target: https://travis-ci.org/melvin15may/ssdedupe
 
 .. image:: https://codecov.io/gh/melvin15may/ssdedupe/branch/master/graph/badge.svg
 	    :target: https://codecov.io/gh/melvin15may/ssdedupe
 
-.. image:: https://readthedocs.org/projects/pgdedupe/badge/?version=latest
-        :target: https://pgdedupe.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/ssdedupe/badge/?version=latest
+        :target: https://ssdedupe.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/melvin15may/ssdedupe/shield.svg
@@ -22,14 +22,14 @@ ssdedupe
 
 **This is a fork from** `dssg/pgdedupe <http://github.com/dssg/pgdedupe>`_. **This will now be a separate repo for MS SQL Server implementation.** (See `PR#40 <https://github.com/dssg/pgdedupe/pull/40>`_)
 
-**This packages is for working with Microsoft SQL Server. I will be slowly removing support for PostgreSQL, please use pgdedupe for working with PostgreSQL**
+**This packages is for working with Microsoft SQL Server. Please use pgdedupe for working with PostgreSQL**
 
 A work-in-progress to provide a standard interface for deduplication of large
 databases with custom pre-processing and post-processing steps.
 
 
 * Free software: MIT license
-* Documentation: https://pgdedupe.readthedocs.io.
+* Documentation: https://ssdedupe.readthedocs.io.
 
 
 Interface
@@ -45,8 +45,6 @@ specifies the following parameters::
 	database:
 	host:
 	port:
-
-To connect to Microsoft SQL Server, an additional parameter ``type: mssql`` needs to added to ``database.yml`` file.
 
 You can now create a sample CSV file with::
 

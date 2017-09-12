@@ -55,8 +55,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'pgdedupe'
-copyright = u"2016, DSaPP Researchers"
+project = u'ssdedupe'
+copyright = u"2017, Melvin Mathew"
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -188,7 +188,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pgdedupedoc'
+htmlhelp_basename = 'ssdedupedoc'
 
 
 # -- Options for LaTeX output ------------------------------------------
@@ -209,8 +209,8 @@ latex_elements = {
 # [howto/manual]).
 latex_documents = [
     ('index', 'pgdedupe.tex',
-     u'Supepgdedupeumentation',
-     u'DSaPP Researchers', 'manual'),
+     u'Supessdedupeumentation',
+     u'Melvin Mathew', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at
@@ -240,8 +240,8 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'pgdedupe',
-     u'Supepgdedupeumentation',
-     [u'DSaPP Researchers'], 1)
+     u'Supessdedupeumentation',
+     [u'Melvin Mathew'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -255,9 +255,9 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'pgdedupe',
-     u'Supepgdedupeumentation',
-     u'DSaPP Researchers',
-     'pgdedupe',
+     u'Supessdedupeumentation',
+     u'Melvin Mathew',
+     'ssdedupe',
      'One line description of project.',
      'Miscellaneous'),
 ]
