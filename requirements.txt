@@ -6,5 +6,5 @@ dedupe==1.9.7
 dedupe-variable-name==0.0.13
 fastcluster==1.1.25
 PyYAML==5.1
-click==6.7
+click==7.0
 unicodecsv==0.14.1
