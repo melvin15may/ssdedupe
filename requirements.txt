@@ -3,7 +3,7 @@ pandas==1.0.3
 psycopg2==2.8.4
 pymssql==2.1.4
 dedupe==2.0.0
-dedupe-variable-name==0.0.11
+dedupe-variable-name==0.0.13
 fastcluster==1.1.24
 PyYAML==3.12
 click==6.7
