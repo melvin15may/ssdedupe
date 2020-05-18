@@ -1,7 +1,7 @@
 numpy==1.18.4
 pandas==1.0.3
 pip==20.1
-bumpversion==0.5.3
+bumpversion==0.6.0
 wheel==0.30.0
 watchdog==0.8.3
 flake8==3.4.1
