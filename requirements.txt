@@ -4,7 +4,7 @@ psycopg2==2.8.6
 pymssql==2.1.5
 dedupe==2.0.6
 dedupe-variable-name==0.0.13
-fastcluster==1.1.24
+fastcluster==1.1.28
 PyYAML==3.12
 click==6.7
 unicodecsv==0.14.1
