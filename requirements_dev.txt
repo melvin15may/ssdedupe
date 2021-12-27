@@ -10,7 +10,7 @@ coverage==6.2
 Sphinx==4.3.2
 cryptography==36.0.1
 PyYAML==6.0
-pytest==3.2.2
+pytest==6.2.5
 psycopg2==2.9.2
 pymssql==2.2.3
 dedupe==2.0.8
