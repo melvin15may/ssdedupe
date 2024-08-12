@@ -5,6 +5,6 @@ pymssql==2.3.0
 dedupe==3.0.2
 dedupe-variable-name==1.0.0
 fastcluster==1.2.6
-PyYAML==3.12
+PyYAML==6.0.2
 click==6.7
 unicodecsv==0.14.1
